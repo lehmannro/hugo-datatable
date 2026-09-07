@@ -76,3 +76,68 @@ And it would render as:
 ```
 
 </details>
+
+## Reference
+
+### `file` parameter
+
+The YAML file that is read from either
+[page resources](https://gohugo.io/quick-reference/glossary/#page-resource) or
+[global resources](https://gohugo.io/quick-reference/glossary/#global-resource).
+
+#### Page resources
+
+Assuming your project looks something like this:
+
+```
+content
+└── posts
+    ├── first-post
+    │   ├── index.md
+    │   └── first.yaml
+    └── second-post
+        ├── index.md
+        └── second.yaml
+```
+
+Within `first-post/index.md`, you could write the following:
+
+```gotmpl
+{{< datatable file="first.yaml" >}}
+```
+
+Referencing a resource from another page bundle (for example `second.yaml`)
+would **not** work.
+
+#### Global resources
+
+You can always reference files from global resources. For example, the file
+`assets/some-data.yaml` can be referenced just so
+
+```gotmpl
+{{< datatable file="some-data.yaml" >}}
+```
+
+### `headers` parameter
+
+The table headers (`<th>` in `<thead>`) are determined from the `headers`
+parameter, which is a comma-separated string of literal values:
+
+```gotmpl
+{{< datatable headers="A,B,C" >}}
+```
+
+Result:
+
+```html
+<thead>
+  <tr>
+    <th>A</th>
+    <th>B</th>
+    <th>C</th>
+  </tr>
+</thead>
+```
+
+There is no escaping, Markdown parsing, or other post-processing of these
+values.
