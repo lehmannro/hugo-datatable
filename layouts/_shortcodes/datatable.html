@@ -15,7 +15,7 @@
 {{ with .Value }}
 {{ $template := resources.FromString (printf "datatable-%s.html" $id) $.Inner }}
 
-<table>
+<table{{ with $.Get "class" }} class="{{ . }}"{{ end }}>
   <thead>
     <tr>
       {{- range $headers -}}

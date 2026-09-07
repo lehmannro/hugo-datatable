@@ -141,3 +141,27 @@ Result:
 
 There is no escaping, Markdown parsing, or other post-processing of these
 values.
+
+### `class` parameter
+
+By default, the shortcode generates a bare table:
+
+```html
+<table>
+  ...
+</table>
+```
+
+By passing the `class` parameter, you can set one or more CSS classes:
+
+```gotmpl
+{{< datatable class="striped sticky-header" >}}
+```
+
+Result:
+
+```html
+<table class="striped sticky-header">
+  ...
+</table>
+```
