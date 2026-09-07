@@ -9,7 +9,7 @@
 {{ end }}
 
 {{ with .Get "file" }}
-{{ with $.Page.Resources.Get . }}
+{{ with or ($.Page.Resources.Get .) (resources.Get .) }}
 {{ $id := printf "%s-%s-%s" (xxhash .Name) (xxhash .Content) (xxhash $.Inner) }}
 {{ with try (transform.Unmarshal (dict "format" "yaml") .) }}
 {{ with .Value }}
