@@ -1,3 +1,5 @@
+disableKinds = ["taxonomy", "taxonomyTerm", "sitemap", "rss"]
+
 [module]
   replacements = "github.com/lehmannro/hugo-datatable -> ../.."
 
