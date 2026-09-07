@@ -165,3 +165,11 @@ Result:
   ...
 </table>
 ```
+
+## Related
+
+[Hugo's documentation itself](https://gohugo.io/content-management/data-sources/#augment-existing-content)
+proposes a `csv-to-table` shortcode which produces a table based on a CSV
+resource. However, the shortcode hard-codes a row layout (usually one `<td>` per
+CSV column); writers would have to modify their shortcode to support an
+ever-growing list of features, or create one fork per CSV layout.
