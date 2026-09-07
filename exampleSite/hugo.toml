@@ -1,0 +1,5 @@
+[module]
+  replacements = "github.com/lehmannro/hugo-datatable -> ../.."
+
+  [[module.imports]]
+    path = "github.com/lehmannro/hugo-datatable"
