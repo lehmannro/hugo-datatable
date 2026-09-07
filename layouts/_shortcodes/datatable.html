@@ -1,0 +1,55 @@
+{{ $keys := slice }}
+{{ range $k, $v := .Params }}{{ $keys = $keys | append $k }}{{ end }}
+
+{{ $headers := slice }}
+{{ with .Get "headers" }}
+{{ $headers = split . "," }}
+{{ else }}
+{{ errorf "no 'headers' parameter, only %v" $keys }}
+{{ end }}
+
+{{ with .Get "file" }}
+{{ with $.Page.Resources.Get . }}
+{{ $id := printf "%s-%s-%s" (xxhash .Name) (xxhash .Content) (xxhash $.Inner) }}
+{{ with try (transform.Unmarshal (dict "format" "yaml") .) }}
+{{ with .Value }}
+{{ $template := resources.FromString (printf "datatable-%s.html" $id) $.Inner }}
+
+<table>
+  <thead>
+    <tr>
+      {{- range $headers -}}
+        <td>{{ . }}</td>
+      {{- end -}}
+    </tr>
+  </thead>
+  <tbody>
+{{- range $idx, $el := . -}}
+    <tr>
+      {{- $tr := resources.ExecuteAsTemplate (printf "datatable-%s-%d.html" $id $idx) $el $template -}}
+      {{- with try $tr.Content -}}
+        {{- with .Value -}}
+          {{- . | safeHTML -}}
+        {{- else -}}
+          {{ errorf "invalid template for %s shortcode at %s %v" $.Name $.Position .Err }}
+        {{- end -}}
+      {{- end -}}
+    </tr>
+{{- end -}}
+  </tbody>
+</table>
+
+{{ else }}
+{{ errorf "could not parse %q: %v" ($.Get "file") .Err }}
+{{ end }}
+{{ end }}
+
+{{ else }}
+{{ $resources := $.Page.Resources.ByType "application" }}
+{{ $resources = (where $resources "MediaType.SubType" "yaml" )}}
+{{ errorf "file not found: %q, did you mean one of: %s" . $resources }}
+{{ end }}
+
+{{ else }}
+{{ errorf "no 'file' parameter, only %v" $keys }}
+{{ end }}
