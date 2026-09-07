@@ -26,6 +26,32 @@ You could use the `datatable` shortcode like this:
 
 And it would render as:
 
+<details>
+  <summary><i>(click to view source)</i>
+    <table>
+      <thead>
+        <tr>
+          <th>Category</th>
+          <th>Name</th>
+          <th>Tags</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><em>Dog</em></td>
+          <td>FLUFFY</td>
+          <td>friendly</td>
+        </tr>
+        <tr>
+          <td><em>Cat</em></td>
+          <td>TIGER</td>
+          <td>cute / indoor</td>
+        </tr>
+      </tbody>
+    </table>
+  </summary>
+
+```html
 <table>
   <thead>
     <tr>
@@ -47,3 +73,6 @@ And it would render as:
     </tr>
   </tbody>
 </table>
+```
+
+</details>
