@@ -1,0 +1,13 @@
+disableKinds = ["taxonomy", "sitemap", "rss"]
+ignoreLogs = ["warning-home-page-is-leaf-bundle"]
+ignoreFiles = ["golden.html"]
+
+[module]
+  replacements = "github.com/lehmannro/hugo-datatable -> ../.."
+
+  [[module.imports]]
+    path = "github.com/lehmannro/hugo-datatable"
+
+[cascade]
+  [cascade.build]
+    publishResources = false
