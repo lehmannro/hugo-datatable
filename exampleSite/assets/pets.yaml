@@ -1,0 +1,6 @@
+- name: Fluffy
+  category: Dog
+  tags: [friendly]
+- name: Tiger
+  category: Cat
+  tags: [cute, indoor]
