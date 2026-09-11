@@ -1,19 +1,41 @@
-{{ $keys := slice }}
-{{ range $k, $v := .Params }}{{ $keys = $keys | append $k }}{{ end }}
+{{- $_keys := slice -}}
+{{- range $k, $v := .Params -}}
+  {{- $_keys = $_keys | append $k -}}
+{{- end -}}
 
-{{ $headers := slice }}
-{{ with .Get "headers" }}
-{{ $headers = split . "," }}
-{{ else }}
-{{ errorf "no 'headers' parameter, only %v" $keys }}
-{{ end }}
+{{- $headers := slice -}}
+{{- with .Get "headers" -}}
+  {{- $headers = split . "," -}}
+{{- else -}}
+  {{- errorf "no 'headers' parameter, only %v" $_keys -}}
+{{- end -}}
 
-{{ with .Get "file" }}
-{{ with or ($.Page.Resources.Get .) (resources.Get .) }}
-{{ $id := printf "%s-%s-%s" (xxhash .Name) (xxhash .Content) (xxhash $.Inner) }}
-{{ with try (transform.Unmarshal (dict "format" "yaml") .) }}
-{{ with .Value }}
-{{ $template := resources.FromString (printf "datatable-%s.html" $id) $.Inner }}
+{{- $data := "" -}}
+{{- $filename := "" -}}
+{{- with .Get "file" -}}
+  {{- $filename = . -}}
+  {{- with or ($.Page.Resources.Get .) (resources.Get .) -}}
+    {{- $data = .Content -}}
+  {{- else -}}
+    {{- $_resources := $.Page.Resources.ByType "application" -}}
+    {{- $_resources = (where $_resources "MediaType.SubType" "yaml") -}}
+    {{- errorf "file not found: %q, did you mean one of: %s" . $_resources -}}
+  {{- end -}}
+{{- else -}}
+  {{- errorf "no 'file' parameter, only %v" $_keys -}}
+{{- end -}}
+
+{{- $contents := slice -}}
+{{- with try (transform.Unmarshal (dict "format" "yaml") $data) -}}
+  {{- with .Value -}}
+    {{- $contents = . -}}
+  {{- else -}}
+    {{- errorf "could not parse %q: %v" $filename .Err -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $id := printf "%s-%s-%s" (xxhash $filename) (xxhash $data) (xxhash .Inner) -}}
+{{- $template := resources.FromString (printf "datatable-%s" $id) .Inner -}}
 
 <table{{ with $.Get "class" }} class="{{ . }}"{{ end }}>
   <thead>
@@ -24,7 +46,7 @@
     </tr>
   </thead>
   <tbody>
-{{- range $idx, $el := . -}}
+{{- range $idx, $el := $contents -}}
     <tr>
       {{- $tr := resources.ExecuteAsTemplate (printf "datatable-%s-%d.html" $id $idx) $el $template -}}
       {{- with try $tr.Content -}}
@@ -38,18 +60,3 @@
 {{- end -}}
   </tbody>
 </table>
-
-{{ else }}
-{{ errorf "could not parse %q: %v" ($.Get "file") .Err }}
-{{ end }}
-{{ end }}
-
-{{ else }}
-{{ $resources := $.Page.Resources.ByType "application" }}
-{{ $resources = (where $resources "MediaType.SubType" "yaml" )}}
-{{ errorf "file not found: %q, did you mean one of: %s" . $resources }}
-{{ end }}
-
-{{ else }}
-{{ errorf "no 'file' parameter, only %v" $keys }}
-{{ end }}
