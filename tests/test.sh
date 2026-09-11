@@ -5,7 +5,11 @@ cd "$(dirname "${BASH_SOURCE[0]}")"
 # _golden <label> <golden> <result>
 _golden() {
   if ! diff --unified --label golden --label "$1" "$2" "$3"; then
-    cp --interactive --backup "./$3" "$2" </dev/tty
+    [[ -f "$3" ]] || exit
+    read -p "update '$2'? (y/N) " confirm </dev/tty
+    case "$confirm" in
+    y | Y) cp --backup "./$3" "$2" ;;
+    esac
   fi
 }
 
