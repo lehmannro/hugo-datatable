@@ -5,7 +5,15 @@ cd "$(dirname "${BASH_SOURCE[0]}")"
 # _golden <label> <golden> <result>
 _golden() {
   if ! diff --unified --label golden --label "$1" "$2" "$3"; then
-    [[ -f "$3" ]] || exit
+    if [[ -f "$3" ]]; then
+      if [[ ! -f "$2" ]]; then
+        echo "Output was:"
+        sed 's/^/  /' "$3"
+      fi
+    else
+      exit
+    fi
+
     read -p "update '$2'? (y/N) " confirm </dev/tty
     case "$confirm" in
     y | Y) cp --backup "./$3" "$2" ;;
