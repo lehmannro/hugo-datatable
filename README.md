@@ -112,10 +112,27 @@ would **not** work.
 #### Global resources
 
 You can always reference files from global resources. For example, the file
-`assets/some-data.yaml` can be referenced just so
+`assets/some-data.yaml` can be referenced just so:
 
 ```gotmpl
 {{< datatable file="some-data.yaml" >}}
+```
+
+### `type` parameter
+
+Hugo has fairly robust detection of a resource's file type:
+
+- For each
+  [supported format](https://gohugo.io/functions/transform/unmarshal/#format),
+  the homonymous file extension (plus `.yml` for YAML).
+- When using [`datatable-data`](#datatable-data-shortcode), mimesniffing based
+  on the first 512 bytes of content
+  ([Go's `net/http.DetectContentType`](https://pkg.go.dev/net/http#DetectContentType)).
+
+The `type` parameter overrides any automated detection:
+
+```gotmpl
+{{< datatable file="dump.txt" type="csv" >}}
 ```
 
 ### `headers` parameter
@@ -168,10 +185,10 @@ Result:
 
 ### `datatable-head` shortcode
 
-By default, the [`headers` parameter](#headers-parameter) determines the contents of
-`<thead>`. The `datatable-head` shortcode allows overriding that:
+By default, the [`headers` parameter](#headers-parameter) determines the
+contents of `<thead>`. The `datatable-head` shortcode allows overriding that:
 
-```
+```gotmpl
 {{< datatable-head >}}
 <th colspan=2>Name (category)</th>
 <th>Tags</th>
@@ -242,7 +259,7 @@ read the table data from. Resource files can be inconvenient, though, e.g. when
 acting inside a leaf page (not a page bundle.) The `datatable-data` shortcode
 allows inlining that:
 
-```
+```gotmpl
 {{< datatable-data >}}
 - category: Hamster
   name: Ginger

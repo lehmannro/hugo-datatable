@@ -6,6 +6,11 @@
 {{- $_datas := 0 -}}
 {{- $data := "" -}}
 {{- $filename := "" -}}
+{{- $filetype := "" -}}
+
+{{- with .Get "type" -}}
+  {{- $filetype = . -}}
+{{- end -}}
 
 {{- with .Get "file" -}}
   {{- $_datas = add $_datas 1 -}}
@@ -14,7 +19,7 @@
     {{- $data = .Content -}}
   {{- else -}}
     {{- $_resources := $.Page.Resources.ByType "application" -}}
-    {{- $_resources = (where $_resources "MediaType.SubType" "yaml") -}}
+    {{- $_resources = where $_resources "MediaType.SubType" ($filetype | default "yaml") -}}
     {{- if $_resources -}}
       {{- errorf "file not found: %q, did you mean one of: %s" . $_resources -}}
     {{- else -}}
@@ -38,7 +43,7 @@
 
 {{- $contents := slice -}}
 {{- with $data -}}
-  {{- with try (transform.Unmarshal (dict) $data) -}}
+  {{- with try (transform.Unmarshal (dict "format" $filetype) $data) -}}
     {{- with .Value -}}
       {{- $contents = . -}}
     {{- else -}}
