@@ -2,19 +2,19 @@
 
 cd "$(dirname "${BASH_SOURCE[0]}")"
 
-# _golden <label> <golden> <result>
+# _golden <golden> <result>
 _golden() {
-  if ! diff --unified --label golden --label "$1" "$2" "$3"; then
-    if [[ -f "$3" ]]; then
-      if [[ ! -f "$2" ]]; then
+  if ! diff --unified --label golden --label "$(basename "$2")" "$1" "$2"; then
+    if [[ -f "$2" ]]; then
+      if [[ ! -f "$1" ]]; then
         echo "Output was:"
-        sed 's/^/  /' "$3"
+        sed 's/^/  /' "$2"
       fi
     else
       exit
     fi
 
-    read -p "update '$2'? (y/N) " confirm </dev/tty
+    read -p "update '$1'? (y/N) " confirm </dev/tty
     case "$confirm" in
     y | Y) cp --backup "./$3" "$2" ;;
     esac
@@ -35,8 +35,8 @@ find . \
 
     if hugo --contentDir "$dir" 2>errors.log >/dev/null; then
       tidy -quiet -modify -indent --show-body-only yes ./public/index.html
-      _golden "index.html" "$dir/golden.html" "public/index.html"
+      _golden "$dir/golden.html" "public/index.html"
     else
-      _golden "errors.log" "$dir/golden.log" "errors.log"
+      _golden "$dir/golden.log" "errors.log"
     fi
   done
