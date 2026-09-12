@@ -18,9 +18,9 @@ You could use the `datatable` shortcode like this:
 
 ```gotmpl
 {{< datatable file="pets.yaml" headers="Category,Name,Tags" >}}
-<td><em>{{ .Category }}</em></td>
-<td>{{ .Name | upper }}</td>
-<td>{{ delimit .Tags " / " }}</td>
+<td><em>{{ .category }}</em></td>
+<td>{{ .name | upper }}</td>
+<td>{{ delimit .tags " / " }}</td>
 {{< /datatable >}}
 ```
 
@@ -173,30 +173,67 @@ By default, the [`headers` parameter](#headers-parameter) determines the content
 
 ```
 {{< datatable-head >}}
-<th colspan=2>Full name</th>
-<th>Age</th>
+<th colspan=2>Name (category)</th>
+<th>Tags</th>
 {{< /datatable-head >}}
 
-{{< datatable >}}
-...
-{{< datatable >}}
+{{< datatable file="pets.yaml" >}}
+<td>{{ .name }}</td>
+<td>{{ .category }}</td>
+<td>{{ delim .tags " / " }}</td>
+{{< /datatable >}}
 ```
 
 Result:
+
+<details>
+  <summary><i>(click to view source)</i>
+    <table>
+      <thead>
+        <tr>
+          <th colspan=2>Name (category)</th>
+          <th>Tags</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Fluffy</td>
+          <td>Dog</td>
+          <td>friendly</td>
+        </tr>
+        <tr>
+          <td>Tiger</td>
+          <td>Cat</td>
+          <td>cute / indoor</td>
+        </tr>
+      </tbody>
+    </table>
+  </summary>
 
 ```html
 <table>
   <thead>
     <tr>
-      <th colspan=2>Full name</th>
-      <th>Age</th>
+      <th colspan=2>Name (category)</th>
+      <th>Tags</th>
     </tr>
   </thead>
   <tbody>
-    ...
+    <tr>
+      <td>Fluffy</td>
+      <td>Dog</td>
+      <td>friendly</td>
+    </tr>
+    <tr>
+      <td>Tiger</td>
+      <td>Cat</td>
+      <td>cute / indoor</td>
+    </tr>
   </tbody>
 </table>
 ```
+
+</details>
 
 ### `datatable-data` shortcode
 
