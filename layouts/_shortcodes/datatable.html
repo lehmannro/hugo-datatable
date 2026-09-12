@@ -3,9 +3,12 @@
   {{- $_keys = $_keys | append $k -}}
 {{- end -}}
 
+{{- $_datas := 0 -}}
 {{- $data := "" -}}
 {{- $filename := "" -}}
+
 {{- with .Get "file" -}}
+  {{- $_datas = add $_datas 1 -}}
   {{- $filename = . -}}
   {{- with or ($.Page.Resources.Get .) (resources.Get .) -}}
     {{- $data = .Content -}}
@@ -18,8 +21,18 @@
       {{- errorf "file not found: %q" . -}}
     {{- end -}}
   {{- end -}}
-{{- else -}}
+{{- end -}}
+
+{{- if isset page.Scratch.Values "datatable-data" -}}
+  {{- $_datas = add $_datas 1 -}}
+  {{- $filename = "datatable-data" -}}
+  {{- $data = page.Scratch.Get "datatable-data" -}}
+{{- end -}}
+
+{{- if eq $_datas 0 -}}
   {{- errorf "no 'file' parameter, only %v" $_keys -}}
+{{- else if gt $_datas 1 -}}
+  {{- errorf "must use either 'file' parameter or datatable-data shortcode, not both" -}}
 {{- end -}}
 
 {{- $contents := slice -}}
@@ -99,3 +112,4 @@
 </table>
 
 {{- page.Scratch.Delete "datatable-head" -}}
+{{- page.Scratch.Delete "datatable-data" -}}
