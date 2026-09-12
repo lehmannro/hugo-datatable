@@ -26,11 +26,13 @@
 {{- end -}}
 
 {{- $contents := slice -}}
-{{- with try (transform.Unmarshal (dict "format" "yaml") $data) -}}
-  {{- with .Value -}}
-    {{- $contents = . -}}
-  {{- else -}}
-    {{- errorf "could not parse %q: %v" $filename .Err -}}
+{{- with $data -}}
+  {{- with try (transform.Unmarshal (dict "format" "yaml") $data) -}}
+    {{- with .Value -}}
+      {{- $contents = . -}}
+    {{- else -}}
+      {{- errorf "could not parse %q: %v" $filename .Err -}}
+    {{- end -}}
   {{- end -}}
 {{- end -}}
 

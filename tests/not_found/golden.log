@@ -1,3 +1,2 @@
 ERROR file not found: "__not_found__.yaml", did you mean one of: []
-ERROR could not parse "__not_found__.yaml": <nil>
-ERROR error building site: logged 2 error(s)
+ERROR error building site: logged 1 error(s)
