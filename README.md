@@ -198,6 +198,69 @@ Result:
 </table>
 ```
 
+### `datatable-data` shortcode
+
+By default, the [`file` parameter](#file-parameter) determines which resource to
+read the table data from. Resource files can be inconvenient, though, e.g. when
+acting inside a leaf page (not a page bundle.) The `datatable-data` shortcode
+allows inlining that:
+
+```
+{{< datatable-data >}}
+- category: Hamster
+  name: Ginger
+  tags: []
+- category: Octopus
+  name: Cthulhu
+  tags: [slimy]
+{{< /datatable-data >}}
+
+{{< datatable headers="Monsters" >}}
+<td>{{ .name }}, the {{ delim .tags " " }} {{ .category }}</td>
+{{< datatable >}}
+```
+
+Result:
+
+<details>
+  <summary><i>(click to view source)</i>
+    <table class="striped sticky-header">
+      <thead>
+        <tr>
+          <th>Monsters</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Ginger, the Hamster</td>
+        </tr>
+        <tr>
+          <td>Cthulhu, the slimy Octopus</td>
+        </tr>
+      </tbody>
+    </table>
+  </summary>
+
+```html
+<table class="striped sticky-header">
+  <thead>
+    <tr>
+      <th>Monsters</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Ginger, the Hamster</td>
+    </tr>
+    <tr>
+      <td>Cthulhu, the slimy Octopus</td>
+    </tr>
+  </tbody>
+</table>
+```
+
+</details>
+
 ## Related
 
 [Hugo's documentation itself](https://gohugo.io/content-management/data-sources/#augment-existing-content)
