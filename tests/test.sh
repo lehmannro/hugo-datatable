@@ -37,6 +37,7 @@ find . \
       tidy -quiet -modify -indent --show-body-only yes ./public/index.html
       _golden "$dir/golden.html" "public/index.html"
     else
+      sed --in-place -E -e 's/(\.html):[0-9]+:[0-9]+/\1:XX:XX/' ./errors.log
       _golden "$dir/golden.log" "errors.log"
     fi
   done
