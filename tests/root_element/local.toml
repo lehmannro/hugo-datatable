@@ -1,0 +1,17 @@
+[[pets]]
+name = "Fluffy"
+category = "Dog"
+
+[[pets]]
+name = "Ginger"
+category = "Hamster"
+
+[strays]
+  [[strays.pet]]
+  name = "Toulouse"
+  category = "Cat"
+
+  [[strays.pet]]
+  name = "Tiger"
+  category = "Cat"
+

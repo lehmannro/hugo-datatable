@@ -183,6 +183,36 @@ Result:
 </table>
 ```
 
+### `root` parameter
+
+Sometimes you don't control the layout of your input; or, in the case of formats
+like TOML, there are simply no top-level arrays to iterate through:
+
+```toml
+[home]
+  [[home.pets]]
+    name = "Fluffy"
+  [[home.pets]]
+    name = "Tiger"
+```
+
+```json
+{
+  home: {
+    pets: [  # << This is an array we can loop over.
+      {name: "Fluffy"},
+      {name: "Tiger"},
+    ],
+  },
+}
+```
+
+For these cases, you can set the root to be a nested element:
+
+```gotmpl
+{{< datatable root="home.pets" >}}
+```
+
 ### `datatable-head` shortcode
 
 By default, the [`headers` parameter](#headers-parameter) determines the

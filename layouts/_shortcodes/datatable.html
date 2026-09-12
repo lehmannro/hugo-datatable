@@ -52,6 +52,12 @@
   {{- end -}}
 {{- end -}}
 
+{{- with .Get "root" -}}
+  {{- range $k := split . "." -}}
+    {{- $contents = index $contents $k -}}
+  {{- end -}}
+{{- end -}}
+
 {{- $id := printf "%s-%s-%s" (xxhash $filename) (xxhash $data) (xxhash .Inner) -}}
 {{- $template := resources.FromString (printf "datatable-%s" $id) .Inner -}}
 
