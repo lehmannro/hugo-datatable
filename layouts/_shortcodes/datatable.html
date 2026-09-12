@@ -19,7 +19,11 @@
   {{- else -}}
     {{- $_resources := $.Page.Resources.ByType "application" -}}
     {{- $_resources = (where $_resources "MediaType.SubType" "yaml") -}}
-    {{- errorf "file not found: %q, did you mean one of: %s" . $_resources -}}
+    {{- if $_resources -}}
+      {{- errorf "file not found: %q, did you mean one of: %s" . $_resources -}}
+    {{- else -}}
+      {{- errorf "file not found: %q" . -}}
+    {{- end -}}
   {{- end -}}
 {{- else -}}
   {{- errorf "no 'file' parameter, only %v" $_keys -}}
