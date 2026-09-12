@@ -38,7 +38,7 @@
 
 {{- $contents := slice -}}
 {{- with $data -}}
-  {{- with try (transform.Unmarshal (dict "format" "yaml") $data) -}}
+  {{- with try (transform.Unmarshal (dict) $data) -}}
     {{- with .Value -}}
       {{- $contents = . -}}
     {{- else -}}
