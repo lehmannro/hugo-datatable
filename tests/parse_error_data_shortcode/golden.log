@@ -1,0 +1,5 @@
+ERROR could not parse "datatable-data@/home/robert/hugo-datatable/tests/parse_error_data_shortcode/index.md:4:1": template: _shortcodes/datatable.html:XX:XX: executing "_shortcodes/datatable.html" at <transform.Unmarshal>: error calling Unmarshal: [3:3] non-map value is specified
+   2 | - category: Hamster
+>  3 |   name Ginger
+         ^
+ERROR error building site: logged 1 error(s)

@@ -25,7 +25,8 @@
 
 {{- if isset page.Scratch.Values "datatable-data" -}}
   {{- $_datas = add $_datas 1 -}}
-  {{- $filename = "datatable-data" -}}
+  {{- $pos := page.Scratch.Get "datatable-data-pos" }}
+  {{- $filename = printf "datatable-data@%s:%d:%d" $pos.Filename $pos.LineNumber $pos.ColumnNumber -}}
   {{- $data = page.Scratch.Get "datatable-data" -}}
 {{- end -}}
 
@@ -68,7 +69,7 @@
     {{- with .Value -}}
       {{- $thead = . -}}
     {{- else -}}
-      {{- errorf "invalid template for datatable-head shortcode: %v" $.Name .Err -}}
+      {{- errorf "invalid template for datatable-head shortcode at %s %v" (page.Scratch.Get "datatable-head-pos") .Err -}}
     {{- end -}}
   {{- end -}}
 {{- end -}}
@@ -112,4 +113,6 @@
 </table>
 
 {{- page.Scratch.Delete "datatable-head" -}}
+{{- page.Scratch.Delete "datatable-head-pos" -}}
 {{- page.Scratch.Delete "datatable-data" -}}
+{{- page.Scratch.Delete "datatable-data-pos" -}}
