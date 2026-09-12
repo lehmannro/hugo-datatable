@@ -1,0 +1,6 @@
+ERROR could not parse "local.yaml": template: _shortcodes/datatable.html:34:25: executing "_shortcodes/datatable.html" at <transform.Unmarshal>: error calling Unmarshal: [2:3] non-map value is specified
+   1 | - a: Lorem
+>  2 |   b Ipsum
+         ^
+   3 |   c Dolor
+ERROR error building site: logged 1 error(s)
