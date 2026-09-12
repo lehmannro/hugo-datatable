@@ -36,13 +36,17 @@
 {{- $id := printf "%s-%s-%s" (xxhash $filename) (xxhash $data) (xxhash .Inner) -}}
 {{- $template := resources.FromString (printf "datatable-%s" $id) .Inner -}}
 
+{{- $_heads := 0 -}}
+
 {{- $headers := slice -}}
 {{- with .Get "headers" -}}
+  {{- $_heads = add $_heads 1 -}}
   {{- $headers = split . "," -}}
 {{- end -}}
 
 {{- $thead := "" -}}
 {{- if isset page.Scratch.Values "datatable-head" -}}
+  {{- $_heads = add $_heads 1 -}}
   {{- $head_id := printf "datatable-head-%s.html" $id -}}
   {{- $head_template := resources.ExecuteAsTemplate $thead (dict) (resources.FromString $head_id (page.Scratch.Get "datatable-head")) -}}
   {{- with try $head_template.Content -}}
@@ -54,8 +58,10 @@
   {{- end -}}
 {{- end -}}
 
-{{- if not (or $thead $headers) -}}
+{{- if eq $_heads 0 -}}
   {{- errorf "no 'headers' parameter, only %v" $_keys -}}
+{{- else if gt $_heads 1 -}}
+  {{- errorf "must use either 'headers' parameter or datatable-head shortcode, not both" -}}
 {{- end -}}
 
 <table{{ with $.Get "class" }} class="{{ . }}"{{ end }}>
