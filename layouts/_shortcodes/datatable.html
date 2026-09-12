@@ -3,13 +3,6 @@
   {{- $_keys = $_keys | append $k -}}
 {{- end -}}
 
-{{- $headers := slice -}}
-{{- with .Get "headers" -}}
-  {{- $headers = split . "," -}}
-{{- else -}}
-  {{- errorf "no 'headers' parameter, only %v" $_keys -}}
-{{- end -}}
-
 {{- $data := "" -}}
 {{- $filename := "" -}}
 {{- with .Get "file" -}}
@@ -43,11 +36,37 @@
 {{- $id := printf "%s-%s-%s" (xxhash $filename) (xxhash $data) (xxhash .Inner) -}}
 {{- $template := resources.FromString (printf "datatable-%s" $id) .Inner -}}
 
+{{- $headers := slice -}}
+{{- with .Get "headers" -}}
+  {{- $headers = split . "," -}}
+{{- end -}}
+
+{{- $thead := "" -}}
+{{- if isset page.Scratch.Values "datatable-head" -}}
+  {{- $head_id := printf "datatable-head-%s.html" $id -}}
+  {{- $head_template := resources.ExecuteAsTemplate $thead (dict) (resources.FromString $head_id (page.Scratch.Get "datatable-head")) -}}
+  {{- with try $head_template.Content -}}
+    {{- with .Value -}}
+      {{- $thead = . -}}
+    {{- else -}}
+      {{- errorf "invalid template for datatable-head shortcode: %v" $.Name .Err -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- if not (or $thead $headers) -}}
+  {{- errorf "no 'headers' parameter, only %v" $_keys -}}
+{{- end -}}
+
 <table{{ with $.Get "class" }} class="{{ . }}"{{ end }}>
   <thead>
     <tr>
-      {{- range $headers -}}
-        <th>{{ . }}</th>
+      {{- with $headers -}}
+        {{- range . -}}
+          <th>{{ . }}</th>
+        {{- end -}}
+      {{- else with $thead -}}
+        {{- . | safeHTML -}}
       {{- end -}}
     </tr>
   </thead>

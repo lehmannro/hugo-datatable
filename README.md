@@ -166,6 +166,38 @@ Result:
 </table>
 ```
 
+### `datatable-head` shortcode
+
+By default, the [`headers` parameter](#headers-parameter) determines the contents of
+`<thead>`. The `datatable-head` shortcode allows overriding that:
+
+```
+{{< datatable-head >}}
+<th colspan=2>Full name</th>
+<th>Age</th>
+{{< /datatable-head >}}
+
+{{< datatable >}}
+...
+{{< datatable >}}
+```
+
+Result:
+
+```html
+<table class="striped sticky-header">
+  <thead>
+    <tr>
+      <th colspan=2>Full name</th>
+      <th>Age</th>
+    </tr>
+  </thead>
+  <tbody>
+    ...
+  </tbody>
+</table>
+```
+
 ## Related
 
 [Hugo's documentation itself](https://gohugo.io/content-management/data-sources/#augment-existing-content)
