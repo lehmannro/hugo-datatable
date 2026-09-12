@@ -31,13 +31,13 @@ find . \
     echo "  + TEST: $(basename $dir)"
 
     rm --recursive -- ./public/ 2>/dev/null
-    unlink ./errors.log
+    mkdir ./public
 
-    if hugo --contentDir "$dir" 2>errors.log >/dev/null; then
-      tidy -quiet -modify -indent --show-body-only yes ./public/index.html
-      _golden "$dir/golden.html" "public/index.html"
+    if hugo --contentDir "$dir" 2>./public/errors.log >/dev/null; then
+      tidy -quiet -indent --show-body-only yes -output ./public/index.tidy.html public/index.html
+      _golden "$dir/golden.html" "public/index.tidy.html"
     else
-      sed --in-place -E -e 's/(\.html):[0-9]+:[0-9]+/\1:XX:XX/' ./errors.log
-      _golden "$dir/golden.log" "errors.log"
+      sed --in-place -E -e 's/(\.html):[0-9]+:[0-9]+/\1:XX:XX/' ./public/errors.log
+      _golden "$dir/golden.log" "public/errors.log"
     fi
   done
