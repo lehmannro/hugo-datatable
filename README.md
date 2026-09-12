@@ -185,7 +185,7 @@ By default, the [`headers` parameter](#headers-parameter) determines the content
 Result:
 
 ```html
-<table class="striped sticky-header">
+<table>
   <thead>
     <tr>
       <th colspan=2>Full name</th>
