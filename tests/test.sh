@@ -16,7 +16,7 @@ _golden() {
 
     read -p "update '$1'? (y/N) " confirm </dev/tty
     case "$confirm" in
-    y | Y) cp --backup "./$3" "$2" ;;
+      y | Y) cp --backup "./$2" "$1" ;;
     esac
   fi
 }
