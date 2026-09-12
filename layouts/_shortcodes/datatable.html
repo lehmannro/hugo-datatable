@@ -47,8 +47,10 @@
 {{- $thead := "" -}}
 {{- if isset page.Scratch.Values "datatable-head" -}}
   {{- $_heads = add $_heads 1 -}}
+{{- end -}}
+{{- with page.Scratch.Get "datatable-head" -}}
   {{- $head_id := printf "datatable-head-%s.html" $id -}}
-  {{- $head_template := resources.ExecuteAsTemplate $thead (dict) (resources.FromString $head_id (page.Scratch.Get "datatable-head")) -}}
+  {{- $head_template := resources.ExecuteAsTemplate $thead (dict) (resources.FromString $head_id .) -}}
   {{- with try $head_template.Content -}}
     {{- with .Value -}}
       {{- $thead = . -}}
@@ -66,15 +68,19 @@
 
 <table{{ with $.Get "class" }} class="{{ . }}"{{ end }}>
   <thead>
-    <tr>
-      {{- with $headers -}}
+    {{- with $headers -}}
+      <tr>
         {{- range . -}}
           <th>{{ . }}</th>
         {{- end -}}
-      {{- else with $thead -}}
+      </tr>
+    {{- else with $thead -}}
+      <tr>
         {{- . | safeHTML -}}
-      {{- end -}}
-    </tr>
+      </tr>
+    {{- else -}}
+      {{ "<!-- intentionally left blank -->" | safeHTML }}
+    {{- end -}}
   </thead>
   <tbody>
 {{- range $idx, $el := $contents -}}
