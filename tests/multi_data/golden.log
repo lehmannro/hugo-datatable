@@ -1,2 +1,2 @@
-ERROR must use either 'file' parameter or datatable-data shortcode, not both
+ERROR must use either 'file' parameter, 'data' parameter, or datatable-data shortcode, not 3
 ERROR error building site: logged 1 error(s)

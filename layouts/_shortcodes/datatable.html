@@ -35,13 +35,23 @@
   {{- $data = page.Scratch.Get "datatable-data" -}}
 {{- end -}}
 
+{{- $contents := slice -}}
+
+{{- with .Get "data" -}}
+  {{- $_datas = add $_datas 1 -}}
+  {{- if isset hugo.Data . -}}
+    {{- $contents = index hugo.Data . -}}
+  {{- else -}}
+    {{- errorf "did not load a data file for %q" . -}}
+  {{- end -}}
+{{- end -}}
+
 {{- if eq $_datas 0 -}}
   {{- errorf "no 'file' parameter, only %v" $_keys -}}
 {{- else if gt $_datas 1 -}}
-  {{- errorf "must use either 'file' parameter or datatable-data shortcode, not both" -}}
+  {{- errorf "must use either 'file' parameter, 'data' parameter, or datatable-data shortcode, not %d" $_datas -}}
 {{- end -}}
 
-{{- $contents := slice -}}
 {{- with $data -}}
   {{- with try (transform.Unmarshal (dict "format" $filetype) $data) -}}
     {{- with .Value -}}

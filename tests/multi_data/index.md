@@ -6,7 +6,7 @@
   tags: []
 {{< /datatable-data >}}
 
-{{< datatable file="pets.yaml" headers="A,B" >}}
+{{< datatable file="pets.yaml" data="dat" headers="A,B" >}}
 <td>{{ .name }}</td>
 {{< /datatable >}}
 

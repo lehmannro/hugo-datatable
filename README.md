@@ -79,9 +79,18 @@ And it would render as:
 
 ## Reference
 
+`hugo-datatable` supports reading from all of Hugo's
+[data sources](https://gohugo.io/content-management/data-sources/):
+
+| Data source      | Supported by                          | Example file                           | Example usage                             |
+| ---------------- | ------------------------------------- | -------------------------------------- | ----------------------------------------- |
+| Page resources   | [`file` parameter](#page-resources)   | `content/posts/my-post/some-data.yaml` | `{{< datatable file="some-data.yaml" >}}` |
+| Global resources | [`file` parameter](#global-resources) | `assets/resource.yaml`                 | `{{< datatable file="resource.yaml" >}}`  |
+| Data directory   | [`data` parameter](#data-parameter)   | `data/input.yaml`                      | `{{< datatable data="input" >}}`          |
+
 ### `file` parameter
 
-The YAML file that is read from either
+Resource files can be read from
 [page resources](https://gohugo.io/quick-reference/glossary/#page-resource) or
 [global resources](https://gohugo.io/quick-reference/glossary/#global-resource).
 
@@ -116,6 +125,15 @@ You can always reference files from global resources. For example, the file
 
 ```gotmpl
 {{< datatable file="some-data.yaml" >}}
+```
+
+### `data` parameter
+
+Resources from the `data/` directory are automatically read by Hugo. For
+example, the file `data/input.yaml` can be referenced like this:
+
+```gotmpl
+{{< datatable data="input" >}}
 ```
 
 ### `type` parameter

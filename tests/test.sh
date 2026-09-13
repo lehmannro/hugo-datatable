@@ -24,7 +24,8 @@ _golden() {
 find . \
   -mindepth 1 -maxdepth 1 \
   -type d \
-  ! -name 'public' ! -name 'layouts' ! -name 'assets' \
+  ! -name 'public' ! -name 'layouts' \
+  ! -name 'assets' ! -name 'data' \
   -print0 |
   sort -z |
   while read -r -d '' dir; do
