@@ -77,6 +77,92 @@ And it would render as:
 
 </details>
 
+## Installation
+
+The most straightforward way if you keep your Hugo site in Git is by setting up
+a [Git submodule](https://git-scm.com/docs/gitsubmodules):
+
+```shell
+$ git submodule add https://github.com/lehmannro/hugo-datatable themes/hugo-datatable
+```
+
+<details>
+  <summary>
+    Alternative: <strong>Git clone</strong>
+  </summary>
+
+```shell
+$ git clone https://github.com/lehmannro/hugo-datatable themes/hugo-datatable --depth=1
+```
+
+</details>
+
+You will then have to register `hugo-datatable` as a
+[theme component](https://gohugo.io/hugo-modules/theme-components/):
+
+```toml
+# hugo.toml
+theme = ['hugo-datatable', 'ananke']
+```
+
+<details>
+<summary>
+
+Alternatively in `hugo.yaml`.
+
+</summary>
+
+```yaml
+theme:
+- hugo-datatable
+- ananke
+```
+
+</details>
+
+### Alternative: Hugo module
+
+You can instead use [Hugo modules](https://gohugo.io/hugo-modules/use-modules/)
+to manage individual dependencies of your site.
+
+If you haven't already, run:
+
+```shell
+$ hugo mod init YOUR_REPO_URL
+```
+
+Then import the module:
+
+```toml
+# hugo.toml
+[module]
+  [[module.imports]]
+    path = "github.com/lehmannro/hugo-datatable"
+```
+
+<details>
+<summary>
+
+Alternatively in `hugo.yaml`.
+
+</summary>
+
+```yaml
+# hugo.yaml
+module:
+  imports:
+  - path: github.com/lehmannro/hugo-datatable
+```
+
+</details>
+
+Whenever you run `hugo serve` modules will be automatically fetched, or you can
+manually update them using:
+
+```shell
+$ go mod get -u
+```
+
 ## Reference
 
 `hugo-datatable` supports reading from all of Hugo's
