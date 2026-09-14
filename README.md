@@ -106,11 +106,9 @@ theme = ['hugo-datatable', 'ananke']
 ```
 
 <details>
-<summary>
-
-Alternatively in `hugo.yaml`.
-
-</summary>
+  <summary>
+    Alternatively in <code>hugo.yaml</code>.
+  </summary>
 
 ```yaml
 theme:
@@ -141,14 +139,11 @@ Then import the module:
 ```
 
 <details>
-<summary>
-
-Alternatively in `hugo.yaml`.
-
-</summary>
+  <summary>
+    Alternatively in <code>hugo.yaml</code>.
+  </summary>
 
 ```yaml
-# hugo.yaml
 module:
   imports:
   - path: github.com/lehmannro/hugo-datatable
