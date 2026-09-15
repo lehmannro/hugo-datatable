@@ -169,6 +169,10 @@ $ go mod get -u
 | Global resources | [`file` parameter](#global-resources) | `assets/resource.yaml`                 | `{{< datatable file="resource.yaml" >}}`  |
 | Data directory   | [`data` parameter](#data-parameter)   | `data/input.yaml`                      | `{{< datatable data="input" >}}`          |
 
+The template embedded in the shortcode content has access to all values of the
+resource's current item. If the template produces no output, the row is skipped
+(i.e., no `<tr>` is produced.)
+
 ### `file` parameter
 
 Resource files can be read from

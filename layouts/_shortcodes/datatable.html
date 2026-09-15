@@ -122,16 +122,18 @@
   </thead>
   <tbody>
 {{- range $idx, $el := $contents -}}
-    <tr>
       {{- $tr := resources.ExecuteAsTemplate (printf "datatable-%s-%d.html" $id $idx) $el $template -}}
       {{- with try $tr.Content -}}
         {{- with .Value -}}
-          {{- . | safeHTML -}}
+          {{- with . | chomp -}}
+            <tr>
+              {{- . | safeHTML -}}
+            </tr>
+          {{- end -}}
         {{- else -}}
           {{ errorf "invalid template for %s shortcode at %s %v" $.Name $.Position .Err }}
         {{- end -}}
       {{- end -}}
-    </tr>
 {{- end -}}
   </tbody>
 </table>
