@@ -316,6 +316,26 @@ For these cases, you can set the root to be a nested element:
 {{< datatable root="home.pets" >}}
 ```
 
+### `caption` parameter
+
+If you want to produce a `<caption>` tag inside the `<table>`, you can do so
+using the `caption` parameter:
+
+```gotmpl
+{{< datatable caption="My favorite pets" >}}
+```
+
+Result:
+
+```html
+<table>
+  <caption>
+    My favorite pets
+  </caption>
+  <thead>
+...
+```
+
 ### `datatable-head` shortcode
 
 By default, the [`headers` parameter](#headers-parameter) determines the

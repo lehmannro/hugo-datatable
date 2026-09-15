@@ -104,12 +104,15 @@
   {{- errorf "must use either 'headers' parameter or datatable-head shortcode, not both" -}}
 {{- end -}}
 
-<table{{ with $.Get "class" }} class="{{ . }}"{{ end }}>
+<table{{ with .Get "class" }} class="{{ . }}"{{ end }}>
+  {{- with .Get "caption" -}}
+    <caption>{{ . }}</caption>
+  {{- end -}}
   <thead>
     {{- with $headers -}}
       <tr>
         {{- range . -}}
-          <th>{{ . }}</th>
+          <th scope="col">{{ . }}</th>
         {{- end -}}
       </tr>
     {{- else with $thead -}}
