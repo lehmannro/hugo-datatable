@@ -44,6 +44,9 @@
   {{- else -}}
     {{- errorf "did not load a data file for %q" . -}}
   {{- end -}}
+  {{- if $.Get "type" -}}
+    {{- errorf "cannot use 'type' parameter with 'data' source (filetype is auto-determined)" -}}
+  {{- end -}}
 {{- end -}}
 
 {{- if eq $_datas 0 -}}
