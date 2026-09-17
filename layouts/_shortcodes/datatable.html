@@ -108,21 +108,21 @@
   {{- with .Get "caption" -}}
     <caption>{{ . }}</caption>
   {{- end -}}
-  <thead>
-    {{- with $headers -}}
+  {{- with $headers -}}
+    <thead>
       <tr>
         {{- range . -}}
           <th scope="col">{{ . }}</th>
         {{- end -}}
       </tr>
-    {{- else with $thead -}}
+    </thead>
+  {{- else with $thead | chomp -}}
+    <thead>
       <tr>
         {{- . | safeHTML -}}
       </tr>
-    {{- else -}}
-      {{ "<!-- intentionally left blank -->" | safeHTML }}
-    {{- end -}}
-  </thead>
+    </thead>
+  {{- end -}}
   <tbody>
 {{- range $idx, $el := $contents -}}
       {{- $tr := resources.ExecuteAsTemplate (printf "datatable-%s-%d.html" $id $idx) $el $template -}}
