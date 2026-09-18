@@ -49,10 +49,32 @@
   {{- end -}}
 {{- end -}}
 
+{{- if isset .Params "param" }}
+  {{- $_datas = add $_datas 1 -}}
+  {{- with .Get "param" -}}
+    {{- if isset page.Params . -}}
+      {{- $contents = index page.Params . -}}
+    {{- else -}}
+      {{- $_params := slice -}}
+      {{- range $k, $v := page.Params -}}
+        {{- if not (in (slice "build" "draft" "iscjklanguage") $k) }}
+          {{- $_params = $_params | append $k -}}
+        {{- end -}}
+      {{- end -}}
+      {{- errorf "did not find parameter %q, only %q" . $_params -}}
+    {{- end -}}
+    {{- if $.Get "type" -}}
+      {{- errorf "cannot use 'type' parameter with 'param' source (filetype is auto-determined)" -}}
+    {{- end -}}
+  {{- else -}}
+    {{- errorf "parameter 'param' cannot be empty" -}}
+  {{- end -}}
+{{- end -}}
+
 {{- if eq $_datas 0 -}}
   {{- errorf "no 'file' parameter, only %v" $_keys -}}
 {{- else if gt $_datas 1 -}}
-  {{- errorf "must use either 'file' parameter, 'data' parameter, or datatable-data shortcode, not %d" $_datas -}}
+  {{- errorf "must use either one parameter (file, data, param) or datatable-data shortcode, not %d" $_datas -}}
 {{- end -}}
 
 {{- with $data -}}

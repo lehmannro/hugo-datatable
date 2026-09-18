@@ -238,6 +238,24 @@ The `type` parameter overrides any automated detection:
 {{< datatable file="dump.txt" type="csv" >}}
 ```
 
+### `param` parameter
+
+If you want to store your table data in front matter, you can also query it like
+this:
+
+```markdown
+---
+wild_pets:
+- category: Hamster
+  name: Ginger
+- category: Octopus
+  name: Cthulhu
+---
+
+{{< datatable param="wild_pets" }}
+...
+```
+
 ### `headers` parameter
 
 The table headers (`<th>` in `<thead>`) are determined from the `headers`
