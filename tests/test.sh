@@ -24,6 +24,7 @@ _golden() {
 find . \
   -mindepth 1 -maxdepth 1 \
   -type d \
+  ${1:+-name $1} \
   ! -name 'public' ! -name 'layouts' \
   ! -name 'assets' ! -name 'data' \
   -print0 |
