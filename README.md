@@ -486,6 +486,27 @@ Result:
 
 </details>
 
+#### `strip` parameter
+
+`mdformat` doesn't handle YAML embedded in shortcodes gracefully (it will treat
+them as text paragraphs or lists), but there is a trick:
+
+```gotmpl
+{{< datatable-data strip=true >}}
+
+<!--
+- name: Rex
+  category: Dog
+- name: Ginger
+  category: Hamster
+-->
+
+{{< /datatable-head >}}
+```
+
+The `strip` parameter to `datatable-data` (not `datatable` itself!) removes any
+leading and trailing spaces, newlines, and HTML comment markers.
+
 ## Related
 
 [Hugo's documentation itself](https://gohugo.io/content-management/data-sources/#augment-existing-content)

@@ -1,2 +1,6 @@
-{{ page.Scratch.Set "datatable-data" .Inner }}
-{{ page.Scratch.Set "datatable-data-pos" .Position }}
+{{- $inner := .Inner -}}
+{{- if eq (.Get "strip") true -}}
+  {{- $inner = strings.Trim $inner " \n" | strings.TrimSuffix "-->" | strings.TrimPrefix (add "<" "!--") -}}
+{{- end -}}
+{{- page.Scratch.Set "datatable-data" $inner -}}
+{{- page.Scratch.Set "datatable-data-pos" .Position -}}
