@@ -238,6 +238,10 @@ The `type` parameter overrides any automated detection:
 {{< datatable file="dump.txt" type="csv" >}}
 ```
 
+Possible types are those supported by
+[`transform.Unmarshal`](https://gohugo.io/functions/transform/unmarshal/#format)
+(`csv`, `json`, `org`, `toml`, `xml`, `yaml`) plus `tsv` (tab-separated values).
+
 ### `param` parameter
 
 If you want to store your table data in front matter, you can also query it like

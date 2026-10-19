@@ -78,7 +78,11 @@
 {{- end -}}
 
 {{- with $data -}}
-  {{- with try (transform.Unmarshal (dict "format" $filetype) $data) -}}
+  {{- $opts := dict "format" $filetype -}}
+  {{- if eq $filetype "tsv" -}}
+    {{- $opts = merge $opts (dict "format" "csv" "delimiter" "\t") }}
+  {{- end -}}
+  {{- with try (transform.Unmarshal $opts $data) -}}
     {{- with .Value -}}
       {{- $contents = . -}}
     {{- else -}}
