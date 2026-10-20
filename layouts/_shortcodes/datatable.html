@@ -130,7 +130,7 @@
   {{- errorf "must use either 'headers' parameter or datatable-head shortcode, not both" -}}
 {{- end -}}
 
-<table{{ with .Get "class" }} class="{{ . }}"{{ end }}>
+<table{{ with .Get "class" }} class="{{ . }}"{{ end }}{{ with .Get "id" }} id="{{ . }}"{{ end }}>
   {{- with .Get "caption" -}}
     <caption>{{ . }}</caption>
   {{- end -}}

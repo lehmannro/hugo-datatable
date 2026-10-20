@@ -308,6 +308,22 @@ Result:
 </table>
 ```
 
+### `id` parameter
+
+You can assign a HTML/CSS identity to the table:
+
+```gotmpl
+{{< datatable id="my-table" >}}
+```
+
+Result:
+
+```html
+<table id="my-table">
+  ...
+</table>
+```
+
 ### `root` parameter
 
 Sometimes you don't control the layout of your input; or, in the case of formats
