@@ -324,6 +324,55 @@ Result:
 </table>
 ```
 
+### `tr` parameter
+
+Each row in the data will be automatically wrapped in `tr` tags:
+
+```gotmpl
+{{< datatable >}}
+...
+{{< /datatable >}}
+```
+
+Result:
+
+```html
+<table>
+  <tr>
+    ...
+  </tr>
+  <tr>
+    ...
+  </tr>
+  ...
+</table>
+```
+
+If you want to create the `tr` tag yourself, for example to apply extra
+attributes, you can do so by setting `tr=false`:
+
+```gotmpl
+{{< datatable tr=false >}}
+<tr style="...">
+  ...
+</tr>
+{{< /datatable >}}
+```
+
+Result:
+
+```html
+<table>
+  <tr style="...">
+    ...
+  </tr>
+  <tr style="...">
+    ...
+  </tr>
+  ...
+</table>
+```
+
 ### `root` parameter
 
 Sometimes you don't control the layout of your input; or, in the case of formats

@@ -130,6 +130,8 @@
   {{- errorf "must use either 'headers' parameter or datatable-head shortcode, not both" -}}
 {{- end -}}
 
+{{- $auto_tr := .Get "tr" | default true -}}
+
 <table{{ with .Get "class" }} class="{{ . }}"{{ end }}{{ with .Get "id" }} id="{{ . }}"{{ end }}>
   {{- with .Get "caption" -}}
     <caption>{{ . }}</caption>
@@ -155,9 +157,9 @@
       {{- with try $tr.Content -}}
         {{- with .Value -}}
           {{- with . | chomp -}}
-            <tr>
+            {{- if $auto_tr -}}<tr>{{- end -}}
               {{- . | safeHTML -}}
-            </tr>
+            {{- if $auto_tr -}}</tr>{{- end -}}
           {{- end -}}
         {{- else -}}
           {{ errorf "invalid template for %s shortcode at %s %v" $.Name $.Position .Err }}
